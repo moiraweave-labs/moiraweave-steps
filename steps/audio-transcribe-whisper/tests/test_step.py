@@ -23,7 +23,12 @@ def infer_request() -> InferRequest:
     return InferRequest(
         id="test-id",
         inputs=[
-            Tensor(name="audio_url", shape=[1], datatype="BYTES", data=["http://example.com/audio.mp3"]),
+            Tensor(
+                name="audio_url",
+                shape=[1],
+                datatype="BYTES",
+                data=["http://example.com/audio.mp3"],
+            ),
             Tensor(name="language", shape=[1], datatype="BYTES", data=["en"]),
         ],
     )
@@ -34,15 +39,23 @@ def infer_request_auto_language() -> InferRequest:
     return InferRequest(
         id="test-id-auto",
         inputs=[
-            Tensor(name="audio_url", shape=[1], datatype="BYTES", data=["http://example.com/audio.mp3"]),
+            Tensor(
+                name="audio_url",
+                shape=[1],
+                datatype="BYTES",
+                data=["http://example.com/audio.mp3"],
+            ),
         ],
     )
 
 
-def _make_response(status_code: int, content: bytes | None = None, json_data: dict | None = None) -> Response:
+def _make_response(
+    status_code: int, content: bytes | None = None, json_data: dict | None = None
+) -> Response:
     """Build a minimal httpx.Response for mocking."""
     if json_data is not None:
         import json
+
         content = json.dumps(json_data).encode()
     req = Request("GET", "http://mock.test/")
     return Response(status_code=status_code, content=content or b"", request=req)
@@ -51,6 +64,7 @@ def _make_response(status_code: int, content: bytes | None = None, json_data: di
 # ---------------------------------------------------------------------------
 # BaseStep properties
 # ---------------------------------------------------------------------------
+
 
 def test_step_name(step: AudioTranscribeWhisperStep) -> None:
     assert step.name == "audio-transcribe-whisper"
@@ -64,6 +78,7 @@ def test_step_version(step: AudioTranscribeWhisperStep) -> None:
 # predict — happy path with explicit language
 # ---------------------------------------------------------------------------
 
+
 async def test_predict_with_language(
     step: AudioTranscribeWhisperStep,
     infer_request: InferRequest,
@@ -75,7 +90,9 @@ async def test_predict_with_language(
     mock_client.__aenter__ = AsyncMock(return_value=mock_client)
     mock_client.__aexit__ = AsyncMock(return_value=False)
     mock_client.get = AsyncMock(return_value=_make_response(200, content=audio_bytes))
-    mock_client.post = AsyncMock(return_value=_make_response(200, json_data=whisper_json))
+    mock_client.post = AsyncMock(
+        return_value=_make_response(200, json_data=whisper_json)
+    )
 
     with patch("app.step.httpx.AsyncClient", return_value=mock_client):
         response = await step.predict(infer_request)
@@ -93,6 +110,7 @@ async def test_predict_with_language(
 # predict — auto language (no language tensor, Whisper detects it)
 # ---------------------------------------------------------------------------
 
+
 async def test_predict_auto_language(
     step: AudioTranscribeWhisperStep,
     infer_request_auto_language: InferRequest,
@@ -103,7 +121,9 @@ async def test_predict_auto_language(
     mock_client.__aenter__ = AsyncMock(return_value=mock_client)
     mock_client.__aexit__ = AsyncMock(return_value=False)
     mock_client.get = AsyncMock(return_value=_make_response(200, content=b"audio"))
-    mock_client.post = AsyncMock(return_value=_make_response(200, json_data=whisper_json))
+    mock_client.post = AsyncMock(
+        return_value=_make_response(200, json_data=whisper_json)
+    )
 
     with patch("app.step.httpx.AsyncClient", return_value=mock_client):
         response = await step.predict(infer_request_auto_language)
@@ -120,6 +140,7 @@ async def test_predict_auto_language(
 # predict — Whisper returns empty duration field
 # ---------------------------------------------------------------------------
 
+
 async def test_predict_missing_duration(
     step: AudioTranscribeWhisperStep,
     infer_request: InferRequest,
@@ -130,7 +151,9 @@ async def test_predict_missing_duration(
     mock_client.__aenter__ = AsyncMock(return_value=mock_client)
     mock_client.__aexit__ = AsyncMock(return_value=False)
     mock_client.get = AsyncMock(return_value=_make_response(200, content=b"audio"))
-    mock_client.post = AsyncMock(return_value=_make_response(200, json_data=whisper_json))
+    mock_client.post = AsyncMock(
+        return_value=_make_response(200, json_data=whisper_json)
+    )
 
     with patch("app.step.httpx.AsyncClient", return_value=mock_client):
         response = await step.predict(infer_request)
@@ -142,6 +165,7 @@ async def test_predict_missing_duration(
 # ---------------------------------------------------------------------------
 # _get_bytes_tensor helper
 # ---------------------------------------------------------------------------
+
 
 def test_get_bytes_tensor_found() -> None:
     req = InferRequest(
@@ -164,6 +188,7 @@ def test_get_bytes_tensor_raises_without_default() -> None:
 # ---------------------------------------------------------------------------
 # create_app smoke test
 # ---------------------------------------------------------------------------
+
 
 def test_create_app_returns_fastapi() -> None:
     from fastapi import FastAPI

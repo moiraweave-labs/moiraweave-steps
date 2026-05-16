@@ -130,6 +130,16 @@ PY
       - name: Install dependencies
         run: uv sync --frozen --all-packages
 
+      - name: Pre-commit Ruff lint (changed step)
+        run: |
+          uv run pre-commit run ruff --files \
+            $(find steps/${{ matrix.step }} -name "*.py" -type f)
+
+      - name: Pre-commit Ruff format (changed step)
+        run: |
+          uv run pre-commit run ruff-format --files \
+            $(find steps/${{ matrix.step }} -name "*.py" -type f)
+
       - name: Run step tests
         run: uv run pytest steps/${{ matrix.step }}/tests -q
 
