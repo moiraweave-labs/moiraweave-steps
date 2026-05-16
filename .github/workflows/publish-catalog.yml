@@ -66,13 +66,44 @@ jobs:
             catalog.yaml
             catalog.json
 
+  prepare-step-matrix:
+    name: Discover steps to build
+    runs-on: ubuntu-24.04
+    outputs:
+      step_matrix: ${{ steps.discover.outputs.step_matrix }}
+      step_count: ${{ steps.discover.outputs.step_count }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Discover step directories
+        id: discover
+        run: |
+          mapfile -t dirs < <(find steps -mindepth 1 -maxdepth 1 -type d | sort)
+          selected=()
+          for dir in "${dirs[@]}"; do
+            if [[ -f "$dir/Dockerfile" && -f "$dir/VERSION" ]]; then
+              selected+=("$dir")
+            fi
+          done
+
+          if [[ ${#selected[@]} -eq 0 ]]; then
+            matrix='[]'
+          else
+            matrix=$(printf '%s\n' "${selected[@]}" | jq -R . | jq -s .)
+          fi
+
+          echo "step_matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "step_count=${#selected[@]}" >> "$GITHUB_OUTPUT"
+
   publish-steps:
     name: Build and publish step images
+    needs: prepare-step-matrix
+    if: needs.prepare-step-matrix.outputs.step_count != '0'
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        step_dir:
-          - steps/text-embed-fastembed
+        step_dir: ${{ fromJson(needs.prepare-step-matrix.outputs.step_matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
