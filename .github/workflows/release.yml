@@ -20,10 +20,5 @@ jobs:
         uses: googleapis/release-please-action@v4
         with:
           release-type: python
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version-file: version.txt
-          changelog-path: CHANGELOG.md
-          packages: |
-            .
-          extra-files: |
-            version.txt
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN != '' && secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
+          target-branch: main
