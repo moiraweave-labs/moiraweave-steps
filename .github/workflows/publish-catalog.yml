@@ -90,7 +90,7 @@ jobs:
           if [[ ${#selected[@]} -eq 0 ]]; then
             matrix='[]'
           else
-            matrix=$(printf '%s\n' "${selected[@]}" | jq -R . | jq -s .)
+            matrix=$(printf '%s\n' "${selected[@]}" | jq -R . | jq -cs .)
           fi
 
           echo "step_matrix=$matrix" >> "$GITHUB_OUTPUT"
