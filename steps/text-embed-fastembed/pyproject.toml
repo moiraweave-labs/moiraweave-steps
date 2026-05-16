@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "MoiraWeave step: text embedding via FastEmbed"
 requires-python = ">=3.13"
 dependencies = [
-    "moiraweave-step-sdk",
+    "moiraweave-step-sdk>=0.1.0",
     "fastembed>=0.4",
     "pydantic-settings>=2.0",
     "uvicorn[standard]>=0.30",
@@ -12,6 +12,3 @@ dependencies = [
 
 [tool.uv]
 package = false
-
-[tool.uv.sources]
-moiraweave-step-sdk = { path = "../../../moiraweave-core/services/step-sdk" }

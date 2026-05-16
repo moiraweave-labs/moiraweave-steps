@@ -12,11 +12,10 @@ package = false
 [tool.uv.workspace]
 members = ["steps/*"]
 
-[tool.uv.sources]
-moiraweave-step-sdk = { path = "../moiraweave-core/services/step-sdk" }
-
 [dependency-groups]
 dev = [
+    "moiraweave-step-sdk>=0.1.0",
+    "moiraweave-shared>=0.1.0",
     "fakeredis>=2.26",
     "httpx>=0.28",
     "mypy>=2.0",
