@@ -45,8 +45,8 @@ jobs:
         id: gen
         run: |
           uv run python scripts/generate_catalog.py
-          catalog_json=$(cat catalog.json)
-          echo "catalog=${catalog_json}" >> $GITHUB_OUTPUT
+          catalog_json=$(jq -c . catalog.json)
+          echo "catalog=${catalog_json}" >> "$GITHUB_OUTPUT"
 
       - name: Create Release Asset
         if: github.event_name == 'release'
