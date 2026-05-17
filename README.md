@@ -1,54 +1,59 @@
 # MoiraWeave Steps
 
+[![Step CI](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/step-ci.yml/badge.svg?branch=main)](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/step-ci.yml)
+[![Publish Catalog and Steps](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/publish-catalog.yml/badge.svg?branch=main)](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/publish-catalog.yml)
+[![Release Please](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/release.yml)
+[![Python](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 Official step catalog for the MoiraWeave platform.
 
-## Purpose
+## Scope
 
 This repository maintains reusable step implementations and task contracts that are:
-- Tested and maintained by the MoiraWeave team.
-- Published as versioned container images.
-- Consumed by users via the CLI, not by cloning this repository.
 
-## What lives here
+- tested and maintained by the MoiraWeave team
+- versioned and published through CI/CD
+- consumed via the CLI by reference and version
 
-- `steps/`: Official deployable step implementations.
-- `tasks/`: Shared task schemas used by the step catalog.
+## Repository structure
 
-## For Users: How to Consume Official Steps
+- `steps/`: official deployable step implementations
+- `tasks/`: official task schemas
+- `scripts/generate_catalog.py`: catalog generation logic
 
-You do **not** need to clone this repository. Instead:
+## For users
+
+You do not need to clone this repository to consume official steps:
 
 ```bash
-# Add an official step to your workspace
 moira step add --from-catalog text-embed-fastembed@1.0
-
-# Or create your own custom step
-moira step new my-task my-impl
 ```
 
-The CLI resolves official steps from the catalog by reference and version. Your custom steps live in your own workspace repository.
+Custom steps remain in your own workspace repository.
 
-## For Contributors: Local Development
+## For contributors
 
 ```bash
 uv sync --frozen --all-packages
 uv run pytest steps/<step-name>/tests -q
 ```
 
-## Adding Steps to the Official Catalog
+Contribution flow:
 
-To contribute new steps to the catalog:
+1. Add or update a step under `steps/<task>-<impl>/`
+2. Add/update the task schema under `tasks/` when needed
+3. Validate with tests and linting
+4. Open a pull request
 
-1. Follow the structure in `steps/` directory.
-2. Create a task contract in `tasks/` if new.
-3. Implement the step in `steps/<task>-<impl>/`.
-4. Test locally and submit a PR.
-5. Once merged, the step is automatically published and available via `moira step add --from-catalog`.
+## CI/CD summary
 
-For detailed structure, see [CONTRIBUTING.md](./CONTRIBUTING.md) in this repository.
+- `step-ci.yml`: validates changed steps and contracts
+- `publish-catalog.yml`: builds catalog and publishes step images
+- `release.yml`: release automation and version flow
 
-## Companion repositories
+## Related repositories
 
-- [moiraweave-core](https://github.com/moiraweave-labs/moiraweave-core): Runtime and infrastructure.
-- [moiraweave-cli](https://github.com/moiraweave-labs/moiraweave-cli): Developer CLI (your entry point).
-- [moiraweave-docs](https://github.com/moiraweave-labs/moiraweave-docs): Documentation.
+- [moiraweave-cli](https://github.com/moiraweave-labs/moiraweave-cli)
+- [moiraweave-core](https://github.com/moiraweave-labs/moiraweave-core)
+- [moiraweave-docs](https://github.com/moiraweave-labs/moiraweave-docs)
