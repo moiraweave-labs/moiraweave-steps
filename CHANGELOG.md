@@ -1,5 +1,7 @@
 # Changelog
 
+> **Migration notice (2026-05-20)**: Steps catalog previously lived in the `inferflow` monorepo. All step images are now published under `ghcr.io/moiraweave-labs/`.
+
 ## 0.1.0 (2026-05-16)
 
 
