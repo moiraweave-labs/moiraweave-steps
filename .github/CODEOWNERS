@@ -1,0 +1,6 @@
+# Default
+*              @moiraweave-labs/maintainers
+
+# Step implementations — open to community PRs (no required owner beyond CI)
+/steps/
+/tasks/
