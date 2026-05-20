@@ -59,7 +59,7 @@ jobs:
             BASE_SHA="$(git rev-list --max-parents=0 HEAD)"
           fi
 
-          chANGED_FILES="$(git diff --name-only "${BASE_SHA}" "${HEAD_SHA}" || true)"
+          CHANGED_FILES="$(git diff --name-only "${BASE_SHA}" "${HEAD_SHA}" || true)"
           echo "Changed files between ${BASE_SHA} and ${HEAD_SHA}:"
           echo "${CHANGED_FILES}"
 
@@ -71,33 +71,23 @@ jobs:
             exit 0
           fi
 
-          MATRIX_JSON="$(python - "${CHANGED_STEPS}" <<'PY'
-import json
-import pathlib
-import sys
+          STEPS_JSON=""
+          while IFS= read -r step; do
+            [[ -z "${step}" ]] && continue
+            version_file="steps/${step}/VERSION"
+            [[ -f "${version_file}" ]] || continue
+            version="$(cat "${version_file}")"
+            [[ -z "${version}" ]] && continue
+            STEPS_JSON="${STEPS_JSON}{\"step\":\"${step}\",\"version\":\"${version}\"},"
+          done <<< "${CHANGED_STEPS}"
 
-steps = [name for name in sys.argv[1].splitlines() if name.strip()]
-root = pathlib.Path('steps')
-matrix = []
-for step in steps:
-    version_file = root / step / 'VERSION'
-    if not version_file.exists():
-        continue
-    version = version_file.read_text(encoding='utf-8').strip()
-    if not version:
-        continue
-    matrix.append({'step': step, 'version': version})
-
-print(json.dumps(matrix))
-PY
-          )"
-
-          if [[ "${MATRIX_JSON}" == "[]" ]]; then
+          if [[ -z "${STEPS_JSON}" ]]; then
             echo "matrix=[]" >> "$GITHUB_OUTPUT"
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
+          MATRIX_JSON="[${STEPS_JSON%,}]"
           echo "matrix=${MATRIX_JSON}" >> "$GITHUB_OUTPUT"
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
 
