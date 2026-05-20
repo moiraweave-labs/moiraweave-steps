@@ -4,6 +4,7 @@
 [![Publish Catalog and Steps](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/publish-catalog.yml/badge.svg?branch=main)](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/publish-catalog.yml)
 [![Release Please](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/moiraweave-labs/moiraweave-steps/actions/workflows/release.yml)
 [![Python](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/)
+[![Docs](https://img.shields.io/badge/docs-live-blue)](https://moiraweave-labs.github.io/moiraweave-docs/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 Official step catalog for the MoiraWeave platform.
