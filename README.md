@@ -7,7 +7,9 @@
 [![Docs](https://img.shields.io/badge/docs-live-blue)](https://moiraweave-labs.github.io/moiraweave-docs/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-Official step catalog for the MoiraWeave platform.
+Legacy reusable step catalog for MoiraWeave examples and pipeline components.
+The main product path is workload templates plus `moira up`; this repository is
+kept for maintained reusable pipeline pieces.
 
 ## Scope
 
@@ -56,5 +58,5 @@ Contribution flow:
 ## Related repositories
 
 - [moiraweave-cli](https://github.com/moiraweave-labs/moiraweave-cli)
-- [moiraweave-core](https://github.com/moiraweave-labs/moiraweave-core)
+- [moiraweave](https://github.com/moiraweave-labs/moiraweave)
 - [moiraweave-docs](https://github.com/moiraweave-labs/moiraweave-docs)
