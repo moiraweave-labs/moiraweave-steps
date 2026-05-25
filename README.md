@@ -7,17 +7,17 @@
 [![Docs](https://img.shields.io/badge/docs-live-blue)](https://moiraweave-labs.github.io/moiraweave-docs/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-Legacy reusable step catalog for MoiraWeave examples and pipeline components.
-The main product path is workload templates plus `moira up`; this repository is
-kept for maintained reusable pipeline pieces.
+Legacy reusable step catalog for historical MoiraWeave pipeline examples.
+The current product path is workload templates plus `moira up`; the active
+MoiraWeave platform does not depend on this repository.
 
 ## Scope
 
-This repository maintains reusable step implementations and task contracts that are:
+This repository contains reusable step implementations and task contracts that were:
 
 - tested and maintained by the MoiraWeave team
 - versioned and published through CI/CD
-- consumed via the CLI by reference and version
+- consumed by the legacy step catalog workflow
 
 ## Repository structure
 
@@ -25,15 +25,12 @@ This repository maintains reusable step implementations and task contracts that 
 - `tasks/`: official task schemas
 - `scripts/generate_catalog.py`: catalog generation logic
 
-## For users
+## Current status
 
-You do not need to clone this repository to consume official steps:
-
-```bash
-moira step add --from-catalog text-embed-fastembed@1.0
-```
-
-Custom steps remain in your own workspace repository.
+You do not need this repository to deploy agents, model services, or workload
+templates with MoiraWeave. New examples should live in workload manifests or in
+the documentation. This repository can be archived once the historical examples
+are no longer useful as reference material.
 
 ## For contributors
 
