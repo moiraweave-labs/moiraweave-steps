@@ -2,6 +2,14 @@
 
 > **Migration notice (2026-05-20)**: Steps catalog previously lived in the `inferflow` monorepo. All step images are now published under `ghcr.io/moiraweave-labs/`.
 
+## [0.1.2](https://github.com/moiraweave-labs/moiraweave-steps/compare/v0.1.1...v0.1.2) (2026-05-25)
+
+
+### Documentation
+
+* mark steps catalog as legacy ([d1a6e8b](https://github.com/moiraweave-labs/moiraweave-steps/commit/d1a6e8b5977500057200861c1006df3a5bf0db54))
+* mark steps catalog legacy ([9016803](https://github.com/moiraweave-labs/moiraweave-steps/commit/901680316fcf205b36c452911d3fa05b82313b20))
+
 ## [0.1.1](https://github.com/moiraweave-labs/moiraweave-steps/compare/v0.1.0...v0.1.1) (2026-05-20)
 
 
